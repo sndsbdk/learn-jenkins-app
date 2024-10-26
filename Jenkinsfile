@@ -7,7 +7,7 @@ pipeline {
     }
 
     stages {
-        stages {
+      
         stage('Build') {
             agent {
                 docker {
