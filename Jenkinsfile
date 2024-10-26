@@ -6,14 +6,7 @@ pipeline {
         NETLIFY_AUTH_TOKEN = credentials('netlify-token')
     }
 
-    stages {
-        stage('Docker Test') {
-            agent any
-            steps {
-                sh 'docker run --rm hello-world'
-            }
-        }
-
+     stages {
         stage('Build') {
             agent {
                 docker {
@@ -21,13 +14,14 @@ pipeline {
                     reuseNode true
                 }
             }
+
             steps {
                 sh '''
                     ls -la
                     node --version
                     npm --version
-                    npm ci
                     npm run build
+                    npm ci
                     ls -la
                 '''
             }
@@ -44,7 +38,9 @@ pipeline {
                     }
 
                     steps {
-                        sh 'npm test'
+                        sh '''
+                            npm test
+                        '''
                     }
                 }
 
@@ -52,6 +48,7 @@ pipeline {
                     agent {
                         docker {
                             image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                            reuseNode true
                         }
                     }
 
@@ -85,6 +82,7 @@ pipeline {
             agent {
                 docker {
                     image 'node:18-alpine'
+                    reuseNode true
                 }
             }
 
