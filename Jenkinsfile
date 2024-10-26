@@ -7,7 +7,13 @@ pipeline {
     }
 
     stages {
-      
+        stage('Docker Test') {
+            agent any
+            steps {
+                sh 'docker run --rm hello-world'
+            }
+        }
+
         stage('Build') {
             agent {
                 docker {
@@ -15,14 +21,14 @@ pipeline {
                 }
             }
             steps {
-              sh '''
-                ls -la
-                node --version
-                npm --version
-                npm ci
-                npm run build
-                ls -la
-              '''                
+                sh '''
+                    ls -la
+                    node --version
+                    npm --version
+                    npm ci
+                    npm run build
+                    ls -la
+                '''
             }
         }
 
@@ -36,9 +42,7 @@ pipeline {
                     }
 
                     steps {
-                        sh '''
-                            npm test
-                        '''
+                        sh 'npm test'
                     }
                 }
 
