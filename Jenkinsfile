@@ -1,6 +1,10 @@
 pipeline {
     agent any
-
+    stage('Test Docker') {
+            steps {
+                sh 'docker version'
+            }
+        }
     environment {
         NETLIFY_SITE_ID = '4795a911-cae5-4868-bba1-65d2962f4f7e'
         NETLIFY_AUTH_TOKEN = credentials('netlify-token')
