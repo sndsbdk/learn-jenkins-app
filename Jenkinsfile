@@ -6,12 +6,11 @@ pipeline {
         NETLIFY_AUTH_TOKEN = credentials('netlify-token')
     }
 
-   stages {
+    stages {
         stage('Build') {
             agent {
                 docker {
                     image 'node:18-alpine'
-                    reuseNode true
                 }
             }
 
@@ -20,8 +19,8 @@ pipeline {
                     ls -la
                     node --version
                     npm --version
-                    npm run build
                     npm ci
+                    npm run build
                     ls -la
                 '''
             }
@@ -33,7 +32,6 @@ pipeline {
                     agent {
                         docker {
                             image 'node:18-alpine'
-                            reuseNode true
                         }
                     }
 
@@ -48,7 +46,6 @@ pipeline {
                     agent {
                         docker {
                             image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
-                            reuseNode true
                         }
                     }
 
@@ -82,7 +79,6 @@ pipeline {
             agent {
                 docker {
                     image 'node:18-alpine'
-                    reuseNode true
                 }
             }
 
